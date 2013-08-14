@@ -1,9 +1,15 @@
-#include <stdio.h>
-#include <string.h>
+#include "substr_count.h"
 #include "lev_dist.h"
+#include "io_tool.h"
 
 #include <iostream>
 #include <string>
+#include <vector>
+#include <assert.h>
+
+#include <stdio.h>
+#include <string.h>
+
 
 int main(void)
 {
@@ -24,9 +30,25 @@ int main(void)
       s2 = line.substr(pos + 1);
     }
 
+    std::vector<_lev_state_t> op_list;
+    op_inserter_t op_inserter(op_list);
 
-    size_t dist = editdist(s1.data(), s2.data(), s1.size(), s2.size(), buffer, 4);
-    std::cout << dist << std::endl;
+    size_t dist = editdist<op_inserter_t>(s1.data(), s2.data(), s1.size(), s2.size(), (void*)buffer, 4, &op_inserter);
+    std::cout << dist;// << std::endl;
+    for (size_t i = 0; i < op_list.size(); ++i) {
+      std::cout << " [" << op_list[i].op_ << "," << op_list[i].value_ << "]";
+    }
+    std::cout << std::endl;
+   
+    print_acceptor_t printer(std::cout, s1,s2);
+    calc_edit_substrings(op_list, printer);
+    std::cout << std::endl;
+
+    std::cout << count_edit_substrings(op_list) << std::endl; 
+
+    edit_count_t edit_count;
+    calc_edit_count(op_list, edit_count);
+    std::cout << edit_count << std::endl;
   }
 
 
