@@ -1,0 +1,9 @@
+1. check algorithm works
+done 2. add edit print (output)
+3. add substring error function
+
+4. combine consecutive edits. (togather, separate, ???)
+5. ? combine edits on distance 1 (togather, separate, ???)
+ edit: {prefix, sstr_orig, sstr_fix}
+ 
+ smoothing: {pfx_len (0,1,2..), }
